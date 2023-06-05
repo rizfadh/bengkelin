@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Bengkelin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="analysis">Analisis</string>
+    <string name="profile">Profil</string>
+    <string name="required">Required</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="email">Email</string>
+    <string name="or">Atau</string>
+    <string name="login_subtitle">Silahkan masuk untuk melanjutkan</string>
+    <string name="login">Masuk</string>
+    <string name="password">Password</string>
+    <string name="register">Daftar</string>
+    <string name="register_subtitle">Silahkan isi data berikut</string>
+    <string name="name">Nama</string>
+    <string name="take_from_gallery">Ambil dari galeri</string>
+    <string name="take_from_camera">Ambil dari kamera</string>
+    <string name="upload">Upload</string>
+    <string name="quality_analyze">Analisa kualitas</string>
+    <string name="analysis_hint">Silahkan masukan gambar ban, lalu klik tombol analisa</string>
+</resources>
