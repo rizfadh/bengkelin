@@ -58,6 +58,11 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun register() {
         val name = binding.edName.text.toString().trim()
         val email = binding.edEmail.text.toString().trim()

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentLoginBinding
+import com.rizky.bengkelin.model.UserData
 import com.rizky.bengkelin.ui.MainActivity
 import com.rizky.bengkelin.ui.common.Result
 import com.rizky.bengkelin.ui.common.alert
@@ -41,7 +42,10 @@ class LoginFragment : Fragment() {
                     val (email, name, token) = it.data
                     viewModel.saveUserData(token, name, email)
                         .observe(viewLifecycleOwner) { result ->
-                            if (result is Result.Success) toMainActivity()
+                            if (result is Result.Success) {
+                                val userData = UserData(token, name, email)
+                                toMainActivity(userData)
+                            }
                         }
                 }
                 is Result.Error -> {
@@ -59,6 +63,11 @@ class LoginFragment : Fragment() {
 
             btnLogin.setOnClickListener { login() }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun login() {
@@ -79,8 +88,9 @@ class LoginFragment : Fragment() {
         binding.progressBar.root.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun toMainActivity() {
+    private fun toMainActivity(userData: UserData) {
         val mainIntent = Intent(requireActivity(), MainActivity::class.java).apply {
+            putExtra(MainActivity.EXTRA_USER_DATA, userData)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(mainIntent)
