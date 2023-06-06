@@ -22,7 +22,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_image_24"
             app:strokeColor="@color/dark_gray"
-            app:strokeWidth="4dp" />
+            app:strokeWidth="2dp"
+            android:background="@color/gray"/>
 
         <TextView
             android:id="@+id/tv_hint"

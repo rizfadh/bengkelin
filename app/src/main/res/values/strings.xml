@@ -23,4 +23,5 @@
     <string name="analysis_hint">Silahkan masukan gambar ban, lalu klik tombol analisa</string>
     <string name="permission_required">Izin diperlukan</string>
     <string name="permissions_success">Izin berhasil diberikan</string>
+    <string name="select_image">Silahkan pilih gambar</string>
 </resources>
