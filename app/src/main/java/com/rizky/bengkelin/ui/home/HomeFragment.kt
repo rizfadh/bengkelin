@@ -29,4 +29,9 @@ class HomeFragment : Fragment() {
         userData = mainViewModel.userData
         binding.tvTest.text = userData.name
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

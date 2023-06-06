@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentRegisterBinding
 import com.rizky.bengkelin.ui.common.Result
 import com.rizky.bengkelin.ui.common.alert
-import com.rizky.bengkelin.ui.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,10 +39,7 @@ class RegisterFragment : Fragment() {
                 }
                 is Result.Success -> {
                     alert(requireActivity(), getString(R.string.success), it.data.message)
-                    parentFragmentManager.commit {
-                        replace(R.id.fragmentContainer, LoginFragment())
-                        setReorderingAllowed(true)
-                    }
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
                 is Result.Error -> {
                     showLoading(false)
@@ -54,14 +51,16 @@ class RegisterFragment : Fragment() {
 
         binding.apply {
             btnLogin.setOnClickListener {
-                parentFragmentManager.commit {
-                    replace(R.id.fragmentContainer, LoginFragment())
-                    setReorderingAllowed(true)
-                }
+                it.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
             }
 
             btnRegister.setOnClickListener { register() }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun register() {

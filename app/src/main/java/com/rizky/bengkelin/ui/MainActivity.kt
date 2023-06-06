@@ -1,8 +1,6 @@
 package com.rizky.bengkelin.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -12,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.ActivityMainBinding
 import com.rizky.bengkelin.model.UserData
+import com.rizky.bengkelin.utils.parcelable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,19 +22,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.hide()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getUserDataPreference().observe(this) { userData ->
-            userData.token?.let { initMain(userData) } ?: run { toAuthActivity() }
+        intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
+            viewModel.setUserData(it)
         }
-    }
 
-    private fun initMain(userData: UserData) {
-        viewModel.setUserData(userData)
-        supportActionBar?.show()
-        binding.mainContainer.visibility = View.VISIBLE
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController.apply {
@@ -53,10 +46,12 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
     }
 
-    private fun toAuthActivity() {
-        val authIntent = Intent(this, AuthActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        startActivity(authIntent)
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    companion object {
+        const val EXTRA_USER_DATA = "extra_user_data"
     }
 }
