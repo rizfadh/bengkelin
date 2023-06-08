@@ -1,9 +1,7 @@
 package com.rizky.bengkelin.ui
 
 import android.Manifest
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -35,24 +33,8 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             viewModel.setUserData(it)
         }
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.navHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController.apply {
-            val navGraph = navInflater.inflate(R.navigation.navigation_graph)
-            graph = navGraph
-        }
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.analysisFragment,
-                R.id.profileFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.bottomNavigationView.setupWithNavController(navController)
-    }
+        if (!hasPermission()) requestPermissions()
 
-    private fun initMain(userData: UserData) {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController.apply {
@@ -110,9 +92,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     companion object {
         const val EXTRA_USER_DATA = "extra_user_data"
 
-        const val PERMISSION_REQUEST_CODE = 10
-        const val CAMERA_PERMISSION = Manifest.permission.CAMERA
-        const val FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
-        const val COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
+        private const val PERMISSION_REQUEST_CODE = 10
+        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
+        private const val FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
+        private const val COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
     }
 }
