@@ -18,13 +18,14 @@
         app:shapeAppearanceOverlay="@style/roundedCornerSmall" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_bengkelPhoto"
+        android:id="@+id/iv_photo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedCornerSmall"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_rating"
@@ -38,11 +39,11 @@
         app:drawableStartCompat="@drawable/ic_star_24"
         app:drawableTint="@color/orange"
         app:layout_constraintBottom_toBottomOf="@id/iv_blue"
-        app:layout_constraintEnd_toEndOf="@id/iv_bengkelPhoto"
-        app:layout_constraintStart_toStartOf="@id/iv_bengkelPhoto"
-        app:layout_constraintTop_toTopOf="@id/iv_bengkelPhoto"
+        app:layout_constraintEnd_toEndOf="@id/iv_photo"
+        app:layout_constraintStart_toStartOf="@id/iv_photo"
+        app:layout_constraintTop_toTopOf="@id/iv_photo"
         app:layout_constraintVertical_bias="0.89"
-        tools:text="4.5" />
+        android:text="4.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -52,13 +53,13 @@
         app:layout_constraintGuide_begin="108dp" />
 
     <TextView
-        android:id="@+id/tv_bengkelName"
+        android:id="@+id/tv_name"
         style="@style/TextAppearance.Bengkelin.h6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/tv_bengkelType"
+        app:layout_constraintBottom_toTopOf="@+id/tv_type"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -67,7 +68,7 @@
         tools:text="Bengkel pak maman abdullah" />
 
     <TextView
-        android:id="@+id/tv_bengkelType"
+        android:id="@+id/tv_type"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,13 +76,13 @@
         android:backgroundTint="@color/gray"
         android:paddingHorizontal="8dp"
         android:paddingVertical="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_bengkelAdress"
+        app:layout_constraintBottom_toTopOf="@+id/tv_address"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bengkelName"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
         tools:text="Mobil" />
 
     <TextView
-        android:id="@+id/tv_bengkelAdress"
+        android:id="@+id/tv_address"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -91,7 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bengkelType"
+        app:layout_constraintTop_toBottomOf="@+id/tv_type"
         tools:text="Jl. jalan ke tanah abang jangan lupa membeli sagu" />
 
     <TextView
@@ -103,7 +104,7 @@
         app:drawableTint="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bengkelAdress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"
         tools:text="700m" />
 
     <TextView
@@ -116,5 +117,5 @@
         app:layout_constraintStart_toEndOf="@id/tv_distance"
         app:layout_constraintTop_toTopOf="@id/tv_distance"
         app:layout_constraintBottom_toBottomOf="@id/tv_distance"
-        tools:text="1 antrian" />
+        android:text="1 antrian" />
 </androidx.constraintlayout.widget.ConstraintLayout>
