@@ -27,7 +27,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userData = mainViewModel.userData
-        binding.tvTest.text = userData.name
     }
 
     override fun onDestroyView() {
