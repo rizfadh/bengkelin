@@ -13,11 +13,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentAnalysisBinding
 import com.rizky.bengkelin.utils.createCustomTempFile
-import com.rizky.bengkelin.utils.uriToFile
+import com.rizky.bengkelin.utils.resizeImageFile
 import java.io.File
 
 class AnalysisFragment : Fragment() {
@@ -29,8 +33,7 @@ class AnalysisFragment : Fragment() {
     private var getFile: File? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAnalysisBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,10 +54,7 @@ class AnalysisFragment : Fragment() {
     ) {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
-            myFile.let { file ->
-                getFile = file
-                binding.ivPreview.setImageBitmap(BitmapFactory.decodeFile(file.path))
-            }
+            cropImage(myFile.toUri())
         }
     }
 
@@ -64,9 +64,7 @@ class AnalysisFragment : Fragment() {
 
         createCustomTempFile(requireActivity().application).also {
             val photoURI: Uri = FileProvider.getUriForFile(
-                requireActivity(),
-                "com.rizky.bengkelin",
-                it
+                requireActivity(), "com.rizky.bengkelin", it
             )
             currentPhotoPath = it.absolutePath
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -79,12 +77,7 @@ class AnalysisFragment : Fragment() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val selectedImg = result.data?.data as Uri
-
-            selectedImg.let { uri ->
-                val myFile = uriToFile(uri, requireActivity())
-                getFile = myFile
-                binding.ivPreview.setImageURI(uri)
-            }
+            cropImage(selectedImg)
         }
     }
 
@@ -95,6 +88,32 @@ class AnalysisFragment : Fragment() {
         }
         val chooser = Intent.createChooser(intent, getString(R.string.select_image))
         launcherIntentGallery.launch(chooser)
+    }
+
+    private val launcherCropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            val path = result.getUriFilePath(requireContext()) as String
+            val file = File(path)
+            getFile = file.resizeImageFile(256, 256).also {
+                val bitmap = BitmapFactory.decodeFile(it.path)
+                binding.ivPreview.setImageBitmap(bitmap)
+                Toast.makeText(
+                    requireActivity(),
+                    "Image resized to ${bitmap.width} x ${bitmap.height}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun cropImage(uri: Uri) {
+        launcherCropImage.launch(
+            CropImageContractOptions(
+                uri, CropImageOptions(
+                    fixAspectRatio = true,
+                )
+            )
+        )
     }
 
     private fun startAnalyze() {

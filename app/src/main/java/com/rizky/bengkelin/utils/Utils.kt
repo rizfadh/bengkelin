@@ -1,16 +1,14 @@
 package com.rizky.bengkelin.utils
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Environment
 import android.os.Parcelable
-import android.net.Uri
-import android.os.Build
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,22 +24,15 @@ fun createCustomTempFile(context: Context): File {
     return File.createTempFile(timeStamp, ".jpg", storageDir)
 }
 
-fun uriToFile(selectedImg: Uri, context: Context): File {
-    val contentResolver: ContentResolver = context.contentResolver
-    val myFile = createCustomTempFile(context)
-
-    val inputStream = contentResolver.openInputStream(selectedImg) as InputStream
-    val outputStream: OutputStream = FileOutputStream(myFile)
-    val buf = ByteArray(1024)
-    var len: Int
-    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
-    outputStream.close()
-    inputStream.close()
-
-    return myFile
-}
-
 inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
     Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+}
+
+fun File.resizeImageFile(sizeW: Int, sizeH: Int): File {
+    BitmapFactory.decodeFile(this.path).let {
+        val bitmap = Bitmap.createScaledBitmap(it, sizeW, sizeH, true)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(this))
+    }
+    return this
 }
