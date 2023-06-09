@@ -1,6 +1,5 @@
 package com.rizky.bengkelin.ui
 
-import android.Manifest
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +10,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.ActivityMainBinding
 import com.rizky.bengkelin.model.UserData
-import com.rizky.bengkelin.ui.common.alert
 import com.rizky.bengkelin.utils.parcelable
-import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
+class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -32,8 +28,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
             viewModel.setUserData(it)
         }
-
-        if (!hasPermission()) requestPermissions()
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -57,44 +51,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         _binding = null
     }
 
-    private fun hasPermission() = EasyPermissions.hasPermissions(
-        this, CAMERA_PERMISSION, FINE_LOCATION_PERMISSION, COARSE_LOCATION_PERMISSION
-    )
-
-    private fun requestPermissions() {
-        EasyPermissions.requestPermissions(
-            this,
-            getString(R.string.permission_required),
-            PERMISSION_REQUEST_CODE,
-            CAMERA_PERMISSION, FINE_LOCATION_PERMISSION, COARSE_LOCATION_PERMISSION
-        )
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        alert(this, getString(R.string.success), getString(R.string.permissions_success))
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            SettingsDialog.Builder(this).build().show()
-        } else requestPermissions()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
     companion object {
         const val EXTRA_USER_DATA = "extra_user_data"
-
-        private const val PERMISSION_REQUEST_CODE = 10
-        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
-        private const val FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
-        private const val COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
     }
 }

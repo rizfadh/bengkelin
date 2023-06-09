@@ -28,4 +28,6 @@ class UserRepository(
         email: String,
         password: String
     ) = apiService.register(name, email, password)
+
+    suspend fun getBengkelList(token: String) = apiService.getBengkelList(token, 1)
 }
