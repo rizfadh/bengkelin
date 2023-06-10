@@ -26,4 +26,5 @@
     <string name="select_image">Silahkan pilih gambar</string>
     <string name="search">Cari</string>
     <string name="distance">%1$dm</string>
+    <string name="empty">Kosong!</string>
 </resources>

@@ -1,12 +1,16 @@
 package com.rizky.bengkelin.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.location.LocationServices
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.ActivityMainBinding
 import com.rizky.bengkelin.model.UserData
@@ -19,7 +23,11 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var userData: UserData
 
+    private lateinit var navController: NavController
+
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,25 +35,44 @@ class MainActivity : AppCompatActivity() {
 
         intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
             viewModel.setUserData(it)
-            val token = "Bearer ${it.token}"
-            viewModel.getBengkelList(token)
+            userData = it
+        }
+
+        LocationServices.getFusedLocationProviderClient(this).let {
+            it.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    val token = "Bearer ${userData.token}"
+                    viewModel.getBengkelList(token, location)
+                }
+            }
         }
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController.apply {
+
+        val setOfMenu = setOf(
+            R.id.homeFragment,
+            R.id.analysisFragment,
+            R.id.profileFragment
+        )
+
+        navController = navHostFragment.navController.apply {
             val navGraph = navInflater.inflate(R.navigation.navigation_graph)
             graph = navGraph
+            addOnDestinationChangedListener { _, dest, _ ->
+                if (dest.id in setOfMenu) binding.bottomNavigationView.visibility = View.VISIBLE
+                else binding.bottomNavigationView.visibility = View.GONE
+            }
         }
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.analysisFragment,
-                R.id.profileFragment
-            )
-        )
+
+        val appBarConfiguration = AppBarConfiguration(setOfMenu)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 
     override fun onDestroy() {

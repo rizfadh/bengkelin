@@ -1,9 +1,10 @@
 package com.rizky.bengkelin.ui
 
-import android.annotation.SuppressLint
 import android.location.Location
-import androidx.lifecycle.*
-import com.google.android.gms.location.FusedLocationProviderClient
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.GsonBuilder
 import com.google.maps.android.SphericalUtil
@@ -18,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val fusedLocation: FusedLocationProviderClient
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     lateinit var userData: UserData
@@ -30,8 +30,7 @@ class MainViewModel @Inject constructor(
 
     fun setUserData(data: UserData) = run { userData = data }
 
-    @SuppressLint("MissingPermission")
-    fun getBengkelList(token: String) {
+    fun getBengkelList(token: String, userLoc: Location) {
         _bengkelList.value = Result.Loading
         viewModelScope.launch {
             try {
@@ -39,12 +38,8 @@ class MainViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         it.bengkelList?.let { result ->
-                            fusedLocation.lastLocation.addOnSuccessListener { loc ->
-                                loc?.let { location ->
-                                    val sorted = sortBengkel(result, location)
-                                    _bengkelList.value = Result.Success(sorted)
-                                }
-                            }
+                            val sorted = sortBengkel(result, userLoc)
+                            _bengkelList.value = Result.Success(sorted)
                         } ?: run { _bengkelList.value = Result.Empty }
                     }
                 } else {
@@ -61,9 +56,9 @@ class MainViewModel @Inject constructor(
 
     private fun sortBengkel(
         list: List<BengkelResult>,
-        location: Location
+        userLoc: Location
     ) = list.map { result ->
-        val userLocation = LatLng(location.latitude, location.longitude)
+        val userLocation = LatLng(userLoc.latitude, userLoc.longitude)
         val bengkelLocation = LatLng(result.lat, result.lon)
         result.distance = SphericalUtil.computeDistanceBetween(
             userLocation, bengkelLocation

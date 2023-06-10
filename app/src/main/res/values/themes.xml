@@ -36,8 +36,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Bengkelin.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="textAllCaps">false</item>
+    <style name="TextAppearance.Bengkelin.Button" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Button.Bengkelin.Outlined.Gray" parent="Widget.MaterialComponents.Button.OutlinedButton">

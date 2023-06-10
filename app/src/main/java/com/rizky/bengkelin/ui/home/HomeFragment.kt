@@ -50,18 +50,18 @@ class HomeFragment : Fragment() {
                 }
                 is Result.Empty -> {
                     showLoading(false)
-                    alert(requireActivity(), "error", "HAH KSOONG")
+                    alert(requireActivity(), getString(R.string.error), getString(R.string.empty))
                 }
                 is Result.Error -> {
                     showLoading(false)
-                    alert(requireActivity(), "error", result.error)
+                    alert(requireActivity(), getString(R.string.error), result.error)
                 }
             }
         }
 
         binding.rvBengkel.apply {
             layoutManager = LinearLayoutManager(requireActivity())
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             adapter = bengkelAdapter
         }
     }
