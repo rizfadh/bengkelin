@@ -25,4 +25,5 @@
     <string name="permissions_success">Izin berhasil diberikan</string>
     <string name="select_image">Silahkan pilih gambar</string>
     <string name="search">Cari</string>
+    <string name="distance">%1$dm</string>
 </resources>

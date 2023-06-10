@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
             viewModel.setUserData(it)
+            val token = "Bearer ${it.token}"
+            viewModel.getBengkelList(token)
         }
 
         val navHostFragment = supportFragmentManager

@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.databinding.ItemBengkelBinding
+import com.rizky.bengkelin.utils.formatToDistance
 
 class BengkelAdapter(
-    onClick: (BengkelResult) -> Unit
+    private val onClick: () -> Unit
 ) : ListAdapter<BengkelResult, BengkelAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(
@@ -26,7 +27,7 @@ class BengkelAdapter(
                 tvName.text = bengkelResult.name
                 tvType.text = bengkelResult.id
                 tvAddress.text = bengkelResult.desc
-                tvDistance.text = bengkelResult.distance.toString()
+                tvDistance.text = bengkelResult.distance.formatToDistance()
             }
         }
     }
@@ -38,6 +39,7 @@ class BengkelAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val bengkel = getItem(position)
         holder.bind(bengkel)
+        holder.itemView.setOnClickListener{ onClick() }
     }
 
     companion object {

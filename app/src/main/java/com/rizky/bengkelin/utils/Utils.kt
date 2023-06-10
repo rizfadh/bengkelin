@@ -36,3 +36,7 @@ fun File.resizeImageFile(sizeW: Int, sizeH: Int): File {
     }
     return this
 }
+
+fun Int.formatToDistance() = if ((this % 1000) != this) {
+    "${this / 1000}km"
+} else "${this}m"
