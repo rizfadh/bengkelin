@@ -38,12 +38,22 @@ class RegisterFragment : Fragment() {
                     showLoading(true)
                 }
                 is Result.Success -> {
-                    alert(requireActivity(), getString(R.string.success), it.data.message)
+                    alert(
+                        requireActivity(),
+                        R.drawable.ic_success_24,
+                        getString(R.string.success),
+                        it.data.message
+                    )
                     findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
                 is Result.Error -> {
                     showLoading(false)
-                    alert(requireActivity(), getString(R.string.error), it.error)
+                    alert(
+                        requireActivity(),
+                        R.drawable.ic_error_24,
+                        getString(R.string.error),
+                        it.error
+                    )
                 }
                 else -> {}
             }
