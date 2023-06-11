@@ -14,7 +14,8 @@ fun alert(context: Context, @DrawableRes icon: Int, title: String, message: Stri
         binding.ivIcon.setImageDrawable(ContextCompat.getDrawable(context, icon))
         binding.tvTitle.text = title
         binding.tvMessage.text = message
-        val dialog = show()
-        binding.btnOk.setOnClickListener { dialog.dismiss() }
+        show().apply {
+            binding.btnOk.setOnClickListener { dismiss() }
+        }
     }
 }
