@@ -59,11 +59,13 @@ class HomeFragment : Fragment() {
                                 }
                                 is Result.Empty -> alert(
                                     requireActivity(),
+                                    R.drawable.ic_error_24,
                                     getString(R.string.error),
                                     getString(R.string.empty)
                                 )
                                 is Result.Error -> alert(
                                     requireActivity(),
+                                    R.drawable.ic_error_24,
                                     getString(R.string.error),
                                     result.error
                                 )
