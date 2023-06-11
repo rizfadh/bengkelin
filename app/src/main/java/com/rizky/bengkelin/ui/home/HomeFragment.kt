@@ -1,5 +1,6 @@
 package com.rizky.bengkelin.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.LocationServices
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentHomeBinding
 import com.rizky.bengkelin.model.UserData
@@ -34,6 +36,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userData = mainViewModel.userData
@@ -41,20 +44,20 @@ class HomeFragment : Fragment() {
         val bengkelAdapter = BengkelAdapter {
             findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
         }
-        mainViewModel.bengkelList.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> showLoading(true)
-                is Result.Success -> {
-                    bengkelAdapter.submitList(result.data)
-                    showLoading(false)
-                }
-                is Result.Empty -> {
-                    showLoading(false)
-                    alert(requireActivity(), getString(R.string.error), getString(R.string.empty))
-                }
-                is Result.Error -> {
-                    showLoading(false)
-                    alert(requireActivity(), getString(R.string.error), result.error)
+
+        LocationServices.getFusedLocationProviderClient(requireActivity()).apply {
+            lastLocation.addOnSuccessListener {  location ->
+                val token = "Bearer ${userData.token}"
+                viewModel.getBengkelList(token, location).observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Result.Loading -> showLoading(true)
+                        is Result.Success -> {
+                            bengkelAdapter.submitList(result.data)
+                            showLoading(false)
+                        }
+                        is Result.Empty -> alert(requireActivity(), getString(R.string.error), getString(R.string.empty))
+                        is Result.Error -> alert(requireActivity(), getString(R.string.error), result.error)
+                    }
                 }
             }
         }

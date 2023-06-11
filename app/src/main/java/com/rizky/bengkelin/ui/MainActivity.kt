@@ -10,7 +10,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.gms.location.LocationServices
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.ActivityMainBinding
 import com.rizky.bengkelin.model.UserData
@@ -23,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var userData: UserData
 
     private lateinit var navController: NavController
 
@@ -35,16 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
             viewModel.setUserData(it)
-            userData = it
-        }
-
-        LocationServices.getFusedLocationProviderClient(this).let {
-            it.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    val token = "Bearer ${userData.token}"
-                    viewModel.getBengkelList(token, location)
-                }
-            }
         }
 
         val navHostFragment = supportFragmentManager
