@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.rizky.bengkelin.ui.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/detail"
         tools:layout="@layout/fragment_detail" />
 
 </navigation>

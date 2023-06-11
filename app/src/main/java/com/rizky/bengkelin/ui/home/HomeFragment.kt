@@ -46,18 +46,29 @@ class HomeFragment : Fragment() {
         }
 
         LocationServices.getFusedLocationProviderClient(requireActivity()).apply {
-            lastLocation.addOnSuccessListener {  location ->
-                val token = "Bearer ${userData.token}"
-                viewModel.getBengkelList(token, location).observe(viewLifecycleOwner) { result ->
-                    when (result) {
-                        is Result.Loading -> showLoading(true)
-                        is Result.Success -> {
-                            bengkelAdapter.submitList(result.data)
-                            showLoading(false)
+            lastLocation.addOnSuccessListener {
+                it?.let { location ->
+                    val token = "Bearer ${userData.token}"
+                    viewModel.getBengkelList(token, location)
+                        .observe(viewLifecycleOwner) { result ->
+                            when (result) {
+                                is Result.Loading -> showLoading(true)
+                                is Result.Success -> {
+                                    bengkelAdapter.submitList(result.data)
+                                    showLoading(false)
+                                }
+                                is Result.Empty -> alert(
+                                    requireActivity(),
+                                    getString(R.string.error),
+                                    getString(R.string.empty)
+                                )
+                                is Result.Error -> alert(
+                                    requireActivity(),
+                                    getString(R.string.error),
+                                    result.error
+                                )
+                            }
                         }
-                        is Result.Empty -> alert(requireActivity(), getString(R.string.error), getString(R.string.empty))
-                        is Result.Error -> alert(requireActivity(), getString(R.string.error), result.error)
-                    }
                 }
             }
         }
