@@ -39,7 +39,12 @@ class AuthActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        alert(this, getString(R.string.success), getString(R.string.permissions_success))
+        alert(
+            this,
+            R.drawable.ic_success_24,
+            getString(R.string.success),
+            getString(R.string.permissions_success)
+        )
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {

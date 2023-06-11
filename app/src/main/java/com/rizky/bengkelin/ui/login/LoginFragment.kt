@@ -50,7 +50,12 @@ class LoginFragment : Fragment() {
                 }
                 is Result.Error -> {
                     showLoading(false)
-                    alert(requireActivity(), getString(R.string.error), it.error)
+                    alert(
+                        requireActivity(),
+                        R.drawable.ic_error_24,
+                        getString(R.string.error),
+                        it.error
+                    )
                 }
                 else -> {}
             }
