@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="@id/iv_photo"
         app:layout_constraintTop_toTopOf="@id/iv_photo"
         app:layout_constraintVertical_bias="0.89"
-        android:text="4.5" />
+        tools:text="4.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -63,7 +63,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_type"
+        app:layout_constraintBottom_toTopOf="@id/tv_typeOne"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -72,7 +72,7 @@
         tools:text="Bengkel pak maman abdullah" />
 
     <TextView
-        android:id="@+id/tv_type"
+        android:id="@+id/tv_typeOne"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,6 +83,21 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_address"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:text="Motor" />
+
+    <TextView
+        android:id="@+id/tv_typeTwo"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/gray"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_typeOne"
+        app:layout_constraintStart_toEndOf="@id/tv_typeOne"
+        app:layout_constraintTop_toTopOf="@id/tv_typeOne"
+        android:layout_marginStart="8dp"
         tools:text="Mobil" />
 
     <TextView
@@ -96,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_type"
+        app:layout_constraintTop_toBottomOf="@id/tv_typeOne"
         tools:text="Jl. jalan ke tanah abang jangan lupa membeli sagu" />
 
     <TextView
@@ -122,5 +137,5 @@
         app:layout_constraintStart_toEndOf="@id/tv_distance"
         app:layout_constraintTop_toTopOf="@id/tv_distance"
         app:layout_constraintBottom_toBottomOf="@id/tv_distance"
-        android:text="1 antrian" />
+        tools:text="1 antrian" />
 </androidx.constraintlayout.widget.ConstraintLayout>

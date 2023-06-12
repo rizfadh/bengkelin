@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentLoginBinding
-import com.rizky.bengkelin.model.UserData
 import com.rizky.bengkelin.ui.MainActivity
 import com.rizky.bengkelin.ui.common.Result
 import com.rizky.bengkelin.ui.common.alert
@@ -35,16 +34,12 @@ class LoginFragment : Fragment() {
 
         viewModel.loginResult.observe(viewLifecycleOwner) {
             when (it) {
-                is Result.Loading -> {
-                    showLoading(true)
-                }
+                is Result.Loading -> showLoading(true)
                 is Result.Success -> {
-                    val (email, name, token) = it.data
-                    viewModel.saveUserData(token, name, email)
+                    viewModel.saveUserToken(it.data)
                         .observe(viewLifecycleOwner) { result ->
                             if (result is Result.Success) {
-                                val userData = UserData(token, name, email)
-                                toMainActivity(userData)
+                                toMainActivity(it.data)
                             }
                         }
                 }
@@ -63,7 +58,9 @@ class LoginFragment : Fragment() {
 
         binding.apply {
             btnRegister.setOnClickListener {
-                it.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+                findNavController().navigate(
+                    R.id.action_loginFragment_to_registerFragment
+                )
             }
 
             btnLogin.setOnClickListener { login() }
@@ -93,9 +90,9 @@ class LoginFragment : Fragment() {
         binding.progressBar.root.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun toMainActivity(userData: UserData) {
+    private fun toMainActivity(userToken: String) {
         val mainIntent = Intent(requireActivity(), MainActivity::class.java).apply {
-            putExtra(MainActivity.EXTRA_USER_DATA, userData)
+            putExtra(MainActivity.EXTRA_USER_TOKEN, userToken)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(mainIntent)

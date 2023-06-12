@@ -5,7 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.rizky.bengkelin.data.preference.UserPreference
-import com.rizky.bengkelin.data.remote.retrofit.ApiConfig
+import com.rizky.bengkelin.data.remote.retrofit.BengkelinApiConfig
+import com.rizky.bengkelin.data.remote.retrofit.PredictionApiConfig
 import com.rizky.bengkelin.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -27,7 +28,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(preference: UserPreference): UserRepository {
-        val apiService = ApiConfig.getApiService()
-        return UserRepository(preference, apiService)
+        val bengkelinApiService = BengkelinApiConfig.getApiService()
+        val predictionApiService = PredictionApiConfig.getApiService()
+        return UserRepository(preference, bengkelinApiService, predictionApiService)
     }
 }

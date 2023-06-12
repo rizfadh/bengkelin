@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.rizky.bengkelin.R
-import com.rizky.bengkelin.model.UserData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,15 +22,15 @@ class InitialActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             delay(2000)
-            viewModel.getUserDataPreference().observe(this@InitialActivity) { userData ->
-                userData.token?.let { toMainActivity(userData) } ?: run { toAuthActivity() }
+            viewModel.getUserToken().observe(this@InitialActivity) { userToken ->
+                userToken?.let { toMainActivity(it) } ?: run { toAuthActivity() }
             }
         }
     }
 
-    private fun toMainActivity(userData: UserData) {
+    private fun toMainActivity(userToken: String) {
         val mainIntent = Intent(this, MainActivity::class.java).apply {
-            putExtra(MainActivity.EXTRA_USER_DATA, userData)
+            putExtra(MainActivity.EXTRA_USER_TOKEN, userToken)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(mainIntent)

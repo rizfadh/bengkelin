@@ -12,8 +12,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.ActivityMainBinding
-import com.rizky.bengkelin.model.UserData
-import com.rizky.bengkelin.utils.parcelable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.parcelable<UserData>(EXTRA_USER_DATA)?.let {
-            viewModel.setUserData(it)
+        intent.getStringExtra(EXTRA_USER_TOKEN)?.let {
+            viewModel.setUserToken(it)
         }
 
         val navHostFragment = supportFragmentManager
@@ -69,6 +67,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_USER_DATA = "extra_user_data"
+        const val EXTRA_USER_TOKEN = "extra_user_token"
     }
 }

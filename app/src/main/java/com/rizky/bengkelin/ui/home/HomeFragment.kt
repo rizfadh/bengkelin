@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentHomeBinding
-import com.rizky.bengkelin.model.UserData
-import com.rizky.bengkelin.ui.MainViewModel
 import com.rizky.bengkelin.ui.adapter.BengkelAdapter
 import com.rizky.bengkelin.ui.common.Result
 import com.rizky.bengkelin.ui.common.alert
@@ -25,9 +22,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var userData: UserData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,17 +34,17 @@ class HomeFragment : Fragment() {
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userData = mainViewModel.userData
 
-        val bengkelAdapter = BengkelAdapter {
-            findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+        val bengkelAdapter = BengkelAdapter { bengkelId ->
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(bengkelId).apply {
+                findNavController().navigate(this)
+            }
         }
 
         LocationServices.getFusedLocationProviderClient(requireActivity()).apply {
             lastLocation.addOnSuccessListener {
                 it?.let { location ->
-                    val token = "Bearer ${userData.token}"
-                    viewModel.getBengkelList(token, location)
+                    viewModel.getBengkelList(location)
                         .observe(viewLifecycleOwner) { result ->
                             when (result) {
                                 is Result.Loading -> showLoading(true)

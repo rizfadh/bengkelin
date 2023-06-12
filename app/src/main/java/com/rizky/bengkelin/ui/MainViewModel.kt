@@ -1,12 +1,11 @@
 package com.rizky.bengkelin.ui
 
 import androidx.lifecycle.ViewModel
-import com.rizky.bengkelin.model.UserData
 
 class MainViewModel: ViewModel() {
 
-    lateinit var userData: UserData
+    lateinit var userToken: String
         private set
 
-    fun setUserData(data: UserData) = run { userData = data }
+    fun setUserToken(userToken: String) = run { this.userToken = userToken }
 }

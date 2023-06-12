@@ -15,22 +15,32 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.rizky.bengkelin.R
+import com.rizky.bengkelin.data.remote.response.PredictionResponse
 import com.rizky.bengkelin.databinding.FragmentAnalysisBinding
+import com.rizky.bengkelin.ui.common.Result
+import com.rizky.bengkelin.ui.common.alert
 import com.rizky.bengkelin.utils.createCustomTempFile
 import com.rizky.bengkelin.utils.resizeImageFile
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
+@AndroidEntryPoint
 class AnalysisFragment : Fragment() {
 
     private var _binding: FragmentAnalysisBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: AnalysisViewModel by viewModels()
 
     private lateinit var currentPhotoPath: String
-    private var getFile: File? = null
+    private var imageFile: File? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,7 +55,7 @@ class AnalysisFragment : Fragment() {
         binding.apply {
             btnCamera.setOnClickListener { startCamera() }
             btnGallery.setOnClickListener { openGallery() }
-            btnAnalyze.setOnClickListener { startAnalyze() }
+            btnAnalyze.setOnClickListener { startAnalyze(imageFile) }
         }
     }
 
@@ -94,7 +104,7 @@ class AnalysisFragment : Fragment() {
         if (result.isSuccessful) {
             val path = result.getUriFilePath(requireContext()) as String
             val file = File(path)
-            getFile = file.resizeImageFile(256, 256).also {
+            imageFile = file.resizeImageFile(256, 256).also {
                 val bitmap = BitmapFactory.decodeFile(it.path)
                 binding.ivPreview.setImageBitmap(bitmap)
                 Toast.makeText(
@@ -116,8 +126,73 @@ class AnalysisFragment : Fragment() {
         )
     }
 
-    private fun startAnalyze() {
-        Toast.makeText(requireActivity(), "Comingsoon", Toast.LENGTH_SHORT).show()
+    private fun startAnalyze(image: File?) {
+        image?.let {
+            val requestImage = it.asRequestBody("image/jpeg".toMediaType())
+            val imageMultiPart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "file",
+                it.name,
+                requestImage
+            )
+            viewModel.getPrediction(imageMultiPart).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Result.Loading -> showLoading(true)
+                    is Result.Success -> {
+                        showLoading(false)
+                        showAnalyzeResult(result.data)
+                    }
+                    is Result.Empty -> {
+                        showLoading(false)
+                        alert(
+                            requireActivity(),
+                            R.drawable.ic_error_24,
+                            getString(R.string.error),
+                            getString(R.string.empty)
+                        )
+                    }
+                    is Result.Error -> {
+                        showLoading(false)
+                        alert(
+                            requireActivity(),
+                            R.drawable.ic_error_24,
+                            getString(R.string.error),
+                            result.error
+                        )
+                    }
+                }
+            }
+        } ?: run {
+            alert(
+                requireActivity(),
+                R.drawable.ic_error_24,
+                getString(R.string.error),
+                getString(R.string.image_empty)
+            )
+        }
+    }
+
+    private fun showAnalyzeResult(result: PredictionResponse) {
+        result.isTireGood.toBoolean().let {
+            if (it) {
+                alert(
+                    requireActivity(),
+                    R.drawable.ic_good_24,
+                    getString(R.string.good),
+                    result.prediction
+                )
+            } else {
+                alert(
+                    requireActivity(),
+                    R.drawable.ic_bad_24,
+                    getString(R.string.bad),
+                    result.prediction
+                )
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.root.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
 }

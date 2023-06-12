@@ -65,4 +65,14 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="RadioButton">
+        <item name="android:background">@drawable/custom_radio_button</item>
+        <item name="android:button">@null</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/custom_radio_button</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
 </resources>

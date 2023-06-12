@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentRegisterBinding
@@ -42,7 +41,7 @@ class RegisterFragment : Fragment() {
                         requireActivity(),
                         R.drawable.ic_success_24,
                         getString(R.string.success),
-                        it.data.message
+                        it.data
                     )
                     findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
@@ -61,7 +60,9 @@ class RegisterFragment : Fragment() {
 
         binding.apply {
             btnLogin.setOnClickListener {
-                it.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                findNavController().navigate(
+                    R.id.action_registerFragment_to_loginFragment
+                )
             }
 
             btnRegister.setOnClickListener { register() }

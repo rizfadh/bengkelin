@@ -26,8 +26,18 @@
     <string name="permissions_success">Izin berhasil diberikan</string>
     <string name="select_image">Silahkan pilih gambar</string>
     <string name="search">Cari</string>
-    <string name="distance">%1$dm</string>
+    <string name="distance_measure">%1$dm</string>
+    <string name="distance">Jarak</string>
+    <string name="number_of_queue">%1$d Antrian</string>
+    <string name="queue">Antrian</string>
     <string name="empty">Kosong!</string>
     <string name="home_title">Pilih bengkel terbaikmu</string>
     <string name="ok">Oke</string>
+    <string name="image_empty">Gambar ban tidak boleh kosong!</string>
+    <string name="good">Bagus</string>
+    <string name="bad">Buruk</string>
+    <string name="schedule">Jadwal</string>
+    <string name="hour">Jam</string>
+    <string name="choose_services">Pilih jenis servis</string>
+    <string name="choose_vehicle">Pilih jenis kendaraan</string>
 </resources>

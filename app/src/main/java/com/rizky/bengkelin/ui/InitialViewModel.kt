@@ -11,5 +11,5 @@ class InitialViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
 
-    fun getUserDataPreference() = userRepository.getUserDataPreference().asLiveData()
+    fun getUserToken() = userRepository.getUserTokenPreference().asLiveData()
 }

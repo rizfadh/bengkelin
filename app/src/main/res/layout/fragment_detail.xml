@@ -13,6 +13,7 @@
         tools:context=".ui.detail.DetailFragment">
 
         <ImageView
+            android:id="@+id/iv_photo"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             tools:src="@tools:sample/avatars"
@@ -25,12 +26,14 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_name"
                 style="@style/TextAppearance.Bengkelin.h6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Bengkel bang jono bin jono bin titan bin thanos bin alpenliebe"/>
 
             <TextView
+                android:id="@+id/tv_address"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Pilih jenis kendaraan"/>
+                android:text="@string/choose_vehicle"/>
 
             <Button
                 android:id="@+id/btn_typeBike"
@@ -77,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_titleType"
-                android:layout_toRightOf="@id/btn_typeBike"
+                android:layout_toEndOf="@id/btn_typeBike"
                 android:layout_marginStart="8dp"
                 android:text="Mobil"/>
         </RelativeLayout>
@@ -97,10 +100,7 @@
                 style="@style/TextAppearance.Bengkelin.h6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pilih jenis servis"/>
-
+                android:text="@string/choose_services" />
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>

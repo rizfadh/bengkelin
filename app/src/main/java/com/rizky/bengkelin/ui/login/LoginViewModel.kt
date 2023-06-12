@@ -2,8 +2,7 @@ package com.rizky.bengkelin.ui.login
 
 import androidx.lifecycle.*
 import com.google.gson.GsonBuilder
-import com.rizky.bengkelin.data.remote.response.ApiResponse
-import com.rizky.bengkelin.data.remote.response.LoginResult
+import com.rizky.bengkelin.data.remote.response.CommonResponse
 import com.rizky.bengkelin.data.repository.UserRepository
 import com.rizky.bengkelin.ui.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +14,8 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _loginResult = MutableLiveData<Result<LoginResult>>()
-    val loginResult: LiveData<Result<LoginResult>> get() = _loginResult
+    private val _loginResult = MutableLiveData<Result<String>>()
+    val loginResult: LiveData<Result<String>> get() = _loginResult
 
     fun login(email: String, password: String) {
         _loginResult.value = Result.Loading
@@ -24,15 +23,13 @@ class LoginViewModel @Inject constructor(
             try {
                 val response = userRepository.login(email, password)
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        it.loginResult?.let { result ->
-                            _loginResult.value = Result.Success(result)
-                        } ?: run { _loginResult.value = (Result.Empty) }
+                    response.body()?.let { result ->
+                        _loginResult.value = Result.Success(result.token)
                     }
                 } else {
                     val result = response.errorBody()?.string()
-                    val error: ApiResponse = GsonBuilder().create()
-                        .fromJson(result, ApiResponse::class.java)
+                    val error: CommonResponse = GsonBuilder().create()
+                        .fromJson(result, CommonResponse::class.java)
                     _loginResult.value = Result.Error(error.message)
                 }
             } catch (e: Exception) {
@@ -41,10 +38,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveUserData(token: String, name: String, email: String): LiveData<Result<Unit>> =
-        liveData {
-            emit(Result.Loading)
-            userRepository.saveUserDataPreference(token, name, email)
-            emit(Result.Success(Unit))
-        }
+    fun saveUserToken(
+        userToken: String
+    ): LiveData<Result<Unit>> = liveData {
+        emit(Result.Loading)
+        userRepository.saveUserTokenPreference(userToken)
+        emit(Result.Success(Unit))
+    }
 }

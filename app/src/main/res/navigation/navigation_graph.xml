@@ -28,6 +28,11 @@
         android:id="@+id/detailFragment"
         android:name="com.rizky.bengkelin.ui.detail.DetailFragment"
         android:label="@string/detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="bengkelId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 
 </navigation>

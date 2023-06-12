@@ -1,34 +1,31 @@
-package com.rizky.bengkelin.ui.home
+package com.rizky.bengkelin.ui.analysis
 
-import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.GsonBuilder
-import com.google.maps.android.SphericalUtil
-import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.data.remote.response.CommonResponse
+import com.rizky.bengkelin.data.remote.response.PredictionResponse
 import com.rizky.bengkelin.data.repository.UserRepository
 import com.rizky.bengkelin.ui.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class AnalysisViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    fun getBengkelList(
-        userLoc: Location
-    ): LiveData<Result<List<BengkelResult>>> = liveData {
+    fun getPrediction(
+        file: MultipartBody.Part
+    ): LiveData<Result<PredictionResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = userRepository.getBengkelList()
+            val response = userRepository.getPrediction(file)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    val sorted = sortBengkel(it.bengkelList, userLoc)
-                    emit(Result.Success(sorted))
+                    emit(Result.Success(it))
                 } ?: run { emit(Result.Empty) }
             } else {
                 val result = response.errorBody()?.string()
@@ -41,15 +38,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun sortBengkel(
-        list: List<BengkelResult>,
-        userLoc: Location
-    ) = list.map { result ->
-        val userLocation = LatLng(userLoc.latitude, userLoc.longitude)
-        val bengkelLocation = LatLng(result.latitude, result.longitude)
-        result.distance = SphericalUtil.computeDistanceBetween(
-            userLocation, bengkelLocation
-        ).toInt()
-        result
-    }.sortedBy { result -> result.distance }
 }

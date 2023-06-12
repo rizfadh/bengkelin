@@ -2,17 +2,20 @@ package com.rizky.bengkelin.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.rizky.bengkelin.R
 import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.databinding.ItemBengkelBinding
 import com.rizky.bengkelin.utils.formatToDistance
 
 class BengkelAdapter(
-    private val onClick: () -> Unit
+    private val onClick: (bengkelId: Int) -> Unit
 ) : ListAdapter<BengkelResult, BengkelAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(
@@ -22,12 +25,18 @@ class BengkelAdapter(
         fun bind(bengkelResult: BengkelResult) {
             Glide.with(itemView.context)
                 .load(bengkelResult.photoUrl)
+                .apply(RequestOptions.placeholderOf(R.drawable.img_image_loading))
                 .into(binding.ivPhoto)
             binding.apply {
-                tvName.text = bengkelResult.name
-                tvType.text = bengkelResult.id
-                tvAddress.text = bengkelResult.desc
+                tvName.text = bengkelResult.nama
+                tvRating.text = bengkelResult.totalNilaiJumlahReview.toString()
+                bengkelResult.kendaraan.split(";").let {
+                    tvTypeOne.text = it[0]
+                    if (it.size == 2) tvTypeTwo.text = it[1] else tvTypeTwo.visibility = View.GONE
+                }
+                tvAddress.text = bengkelResult.alamat
                 tvDistance.text = bengkelResult.distance.formatToDistance()
+                tvQueue.text = itemView.context.getString(R.string.number_of_queue, bengkelResult.antrian)
             }
         }
     }
@@ -38,8 +47,10 @@ class BengkelAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val bengkel = getItem(position)
-        holder.bind(bengkel)
-        holder.itemView.setOnClickListener{ onClick() }
+        holder.apply {
+            bind(bengkel)
+            itemView.setOnClickListener { onClick(bengkel.id) }
+        }
     }
 
     companion object {

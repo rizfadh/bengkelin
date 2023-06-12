@@ -1,33 +1,38 @@
 package com.rizky.bengkelin.data.repository
 
 import com.rizky.bengkelin.data.preference.UserPreference
-import com.rizky.bengkelin.data.remote.retrofit.ApiService
+import com.rizky.bengkelin.data.remote.retrofit.BengkelinApiService
+import com.rizky.bengkelin.data.remote.retrofit.PredictionApiService
+import okhttp3.MultipartBody
 
 class UserRepository(
     private val preference: UserPreference,
-    private val apiService: ApiService
+    private val bengkelinApiService: BengkelinApiService,
+    private val predictionApiService: PredictionApiService
 ) {
 
-    fun getUserDataPreference() = preference.getUserData()
+    fun getUserTokenPreference() = preference.getUserToken()
 
-    suspend fun saveUserDataPreference(
-        token: String,
-        name: String,
-        email: String
-    ) = preference.saveUserData(token, name, email)
+    suspend fun saveUserTokenPreference(token: String) = preference.saveUserToken(token)
 
-    suspend fun logout() = preference.deleteUserData()
+    suspend fun deleteUserTokenPreference() = preference.deleteUserToken()
 
     suspend fun login(
         email: String,
         password: String
-    ) = apiService.login(email, password)
+    ) = bengkelinApiService.login(email, password)
 
     suspend fun register(
-        name: String,
+        username: String,
         email: String,
         password: String
-    ) = apiService.register(name, email, password)
+    ) = bengkelinApiService.register(username, email, password)
 
-    suspend fun getBengkelList(token: String) = apiService.getBengkelList(token, 1)
+    suspend fun getBengkelList() = bengkelinApiService.getBengkelList()
+
+    suspend fun getBengkelDetail(
+        bengkelId: Int
+    ) = bengkelinApiService.getBengkelDetail(bengkelId)
+
+    suspend fun getPrediction(file: MultipartBody.Part) = predictionApiService.getPrediction(file)
 }
