@@ -19,6 +19,7 @@
     <style name="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="android:textColor">@color/black</item>
+        <item name="iconTint">@color/black</item>
     </style>
 
     <style name="TextAppearance.Bengkelin.h4" parent="TextAppearance.MaterialComponents.Headline4">
