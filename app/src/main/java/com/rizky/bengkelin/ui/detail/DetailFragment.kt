@@ -70,7 +70,7 @@ class DetailFragment : Fragment() {
 
     private fun setDetailView(data: DetailResult) {
         Glide.with(requireActivity())
-            .load(data.bengkel.photoUrl)
+            .load(data.bengkel.photoURL)
             .apply(RequestOptions.placeholderOf(R.drawable.img_image_loading))
             .into(binding.ivPhoto)
         binding.tvName.text = data.bengkel.nama

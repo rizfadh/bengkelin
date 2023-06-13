@@ -9,6 +9,7 @@ import android.os.Environment
 import android.os.Parcelable
 import java.io.File
 import java.io.FileOutputStream
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,6 +38,12 @@ fun File.resizeImageFile(sizeW: Int, sizeH: Int): File {
     return this
 }
 
-fun Int.formatToDistance() = if ((this % 1000) != this) {
-    "${this / 1000}km"
-} else "${this}m"
+fun Double.formatToDistance(): String {
+    return if ((this % 1000) != this) {
+        val distance = this / 1000
+        val result = distance.toBigDecimal()
+            .setScale(2, RoundingMode.HALF_UP)
+            .toDouble()
+        "${result}km"
+    } else "${this}m"
+}

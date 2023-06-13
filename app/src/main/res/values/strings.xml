@@ -29,6 +29,8 @@
     <string name="distance_measure">%1$dm</string>
     <string name="distance">Jarak</string>
     <string name="number_of_queue">%1$d Antrian</string>
+    <string name="nearest">Terdekat</string>
+    <string name="starFourPlus">Bintang 4+</string>
     <string name="queue">Antrian</string>
     <string name="empty">Kosong!</string>
     <string name="home_title">Pilih bengkel terbaikmu</string>

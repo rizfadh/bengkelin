@@ -24,7 +24,7 @@ class BengkelAdapter(
 
         fun bind(bengkelResult: BengkelResult) {
             Glide.with(itemView.context)
-                .load(bengkelResult.photoUrl)
+                .load(bengkelResult.photoURL)
                 .apply(RequestOptions.placeholderOf(R.drawable.img_image_loading))
                 .into(binding.ivPhoto)
             binding.apply {

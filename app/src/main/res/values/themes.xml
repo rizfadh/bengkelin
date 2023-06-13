@@ -72,7 +72,6 @@
         <item name="android:textColor">@color/custom_radio_button</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginTop">8dp</item>
     </style>
 
 </resources>

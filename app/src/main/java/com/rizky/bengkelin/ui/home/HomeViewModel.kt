@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
                     it.longitude,
                     it.latitude
                 )
-                it.distance = osrmResult.body()?.routes?.get(0)?.distance?.toInt() ?: 0
+                it.distance = osrmResult.body()?.routes?.get(0)?.distance ?: -1.0
                 it
             }
             result?.let {

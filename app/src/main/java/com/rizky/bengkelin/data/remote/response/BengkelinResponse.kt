@@ -36,8 +36,8 @@ data class BengkelResult(
     @field:SerializedName("nama")
     val nama: String,
 
-    @field:SerializedName("photoUrl")
-    val photoUrl: String,
+    @field:SerializedName("photoURL")
+    val photoURL: String,
 
     @field:SerializedName("kendaraan")
     val kendaraan: String,
@@ -63,7 +63,7 @@ data class BengkelResult(
     @field:SerializedName("jamBuka")
     val jamBuka: String,
 
-    var distance: Int
+    var distance: Double
 )
 
 data class DetailResponse(
@@ -91,8 +91,8 @@ data class ReviewResult(
     @field:SerializedName("namaUser")
     val namaUser: String,
 
-    @field:SerializedName("photoUrl")
-    val photoUrl: String,
+    @field:SerializedName("photoURL")
+    val photoURL: String,
 
     @field:SerializedName("createdAt")
     val string: String,
