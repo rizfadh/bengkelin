@@ -2,13 +2,15 @@ package com.rizky.bengkelin.data.repository
 
 import com.rizky.bengkelin.data.preference.UserPreference
 import com.rizky.bengkelin.data.remote.retrofit.BengkelinApiService
+import com.rizky.bengkelin.data.remote.retrofit.OsrmApiService
 import com.rizky.bengkelin.data.remote.retrofit.PredictionApiService
 import okhttp3.MultipartBody
 
 class UserRepository(
     private val preference: UserPreference,
     private val bengkelinApiService: BengkelinApiService,
-    private val predictionApiService: PredictionApiService
+    private val predictionApiService: PredictionApiService,
+    private val osrmApiService: OsrmApiService,
 ) {
 
     fun getUserTokenPreference() = preference.getUserToken()
@@ -35,4 +37,20 @@ class UserRepository(
     ) = bengkelinApiService.getBengkelDetail(bengkelId)
 
     suspend fun getPrediction(file: MultipartBody.Part) = predictionApiService.getPrediction(file)
+
+    suspend fun calculateDistance(
+        userLong: Double,
+        userLat: Double,
+        desLong: Double,
+        desLat: Double,
+        overview: Boolean = false,
+        skipWaypoints: Boolean = true
+    ) = osrmApiService.calculateDistance(
+        userLong,
+        userLat,
+        desLong,
+        desLat,
+        overview,
+        skipWaypoints
+    )
 }
