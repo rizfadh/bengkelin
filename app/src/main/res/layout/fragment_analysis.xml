@@ -7,61 +7,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.analysis.AnalysisFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_preview"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_image_24"
-            android:background="@color/gray"
-            app:shapeAppearanceOverlay="@style/roundedCornerSmall"/>
+            tools:layout_editor_absoluteX="16dp">
 
-        <TextView
-            android:id="@+id/tv_hint"
-            style="?attr/textAppearanceBody1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/analysis_hint"
-            app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/gray"
+                android:src="@drawable/ic_image_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedCornerSmall" />
 
-        <Button
-            android:id="@+id/btn_gallery"
-            style="@style/Button.Bengkelin.Outlined.Blue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/take_from_gallery"
-            app:layout_constraintTop_toBottomOf="@+id/tv_hint" />
+            <TextView
+                android:id="@+id/tv_hint"
+                style="?attr/textAppearanceBody1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/analysis_hint"
+                app:layout_constraintTop_toBottomOf="@+id/iv_preview" />
 
-        <Button
-            android:id="@+id/btn_camera"
-            style="@style/Button.Bengkelin.Outlined.Blue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/take_from_camera"
-            app:layout_constraintTop_toBottomOf="@+id/btn_gallery"
-            tools:layout_editor_absoluteX="16dp" />
+            <Button
+                android:id="@+id/btn_gallery"
+                style="@style/Button.Bengkelin.Outlined.Blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/take_from_gallery"
+                app:layout_constraintTop_toBottomOf="@+id/tv_hint" />
 
-        <Button
-            android:id="@+id/btn_analyze"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/quality_analyze"
-            app:layout_constraintTop_toBottomOf="@+id/btn_camera"
-            tools:layout_editor_absoluteX="16dp" />
+            <Button
+                android:id="@+id/btn_camera"
+                style="@style/Button.Bengkelin.Outlined.Blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/take_from_camera"
+                app:layout_constraintTop_toBottomOf="@+id/btn_gallery"
+                tools:layout_editor_absoluteX="16dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btn_analyze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/quality_analyze"
+                app:layout_constraintTop_toBottomOf="@+id/btn_camera"
+                tools:layout_editor_absoluteX="16dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/progressBar"
