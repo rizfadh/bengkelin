@@ -45,4 +45,6 @@
     <string name="add_note">Tambah catatan</string>
     <string name="review">Review</string>
     <string name="note">Catatan</string>
+    <string name="location_not_found">Lokasi tidak ditemukan!</string>
+    <string name="gps_off_alert">Anda harus mengaktifkan GPS untuk menggunakan aplikasi ini!</string>
 </resources>
