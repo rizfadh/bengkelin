@@ -1,114 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.detail.DetailFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".ui.detail.DetailFragment">
-
-        <ImageView
-            android:id="@+id/iv_photo"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            tools:src="@tools:sample/avatars"
-            android:scaleType="centerCrop" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/TextAppearance.Bengkelin.h6"
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_image_loading" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Bengkel bang jono bin jono bin titan bin thanos bin alpenliebe"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_address"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/TextAppearance.Bengkelin.h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Bengkel bang jono bin jono bin titan bin thanos bin alpenliebe" />
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    tools:text="Jl. yang kita lalui bersama dengan si dia RT. 03 RW. 01" />
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/layout_information"
+                layout="@layout/layout_bengkel_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="16dp"
+                app:dividerColor="@color/light_gray" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:text="Jl. yang kita lalui bersama dengan si dia RT. 03 RW. 01"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_titleType"
+                    style="@style/TextAppearance.Bengkelin.h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_vehicle" />
 
-        <include
-            android:id="@+id/layout_information"
-            layout="@layout/layout_bengkel_information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/rg_vehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:layout_marginTop="16dp"
-            app:dividerColor="@color/light_gray"/>
+                    <RadioButton
+                        android:id="@+id/rb_one"
+                        style="@style/RadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Motor" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="vertical">
+                    <RadioButton
+                        android:id="@+id/rb_two"
+                        style="@style/RadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        tools:text="Mobil" />
 
-            <TextView
-                android:id="@+id/tv_titleType"
-                style="@style/TextAppearance.Bengkelin.h6"
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                app:dividerColor="@color/light_gray" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_vehicle"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <RadioGroup
-                android:id="@+id/rg_vehicle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_one"
-                    style="@style/RadioButton"
+                <TextView
+                    style="@style/TextAppearance.Bengkelin.h6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Motor"/>
+                    android:text="@string/choose_services" />
 
-                <RadioButton
-                    android:id="@+id/rb_two"
-                    style="@style/RadioButton"
+                <LinearLayout
+                    android:id="@+id/layout_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <TextView
+                    style="@style/TextAppearance.Bengkelin.h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/add_note" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="?attr/textInputOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ed_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:gravity="start"
+                        android:inputType="textMultiLine" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                app:dividerColor="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/reviewTitle"
+                    style="@style/TextAppearance.Bengkelin.h6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review" />
+
+                <TextView
+                    android:id="@+id/tv_review"
+                    style="@style/TextAppearance.Bengkelin.h6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    tools:text="Mobil"/>
+                    android:layout_toEndOf="@id/reviewTitle"
+                    app:drawableStartCompat="@drawable/ic_star_24"
+                    app:drawableTint="@color/orange"
+                    tools:text="4.5" />
 
-            </RadioGroup>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reviewTitle"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_review" />
 
+            </RelativeLayout>
         </LinearLayout>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            app:dividerColor="@color/light_gray"/>
+        <include
+            android:id="@+id/progressBar"
+            layout="@layout/layout_detail_shimmer" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                style="@style/TextAppearance.Bengkelin.h6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/choose_services" />
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

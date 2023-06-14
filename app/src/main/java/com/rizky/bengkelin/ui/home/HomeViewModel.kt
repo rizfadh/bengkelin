@@ -22,22 +22,22 @@ class HomeViewModel @Inject constructor(
     ): LiveData<Result<List<BengkelResult>>> = liveData {
         emit(Result.Loading)
         try {
-            val bengkelResult = userRepository.getBengkelList()
-            val result = bengkelResult.body()?.bengkelList?.map {
-                val osrmResult = userRepository.calculateDistance(
+            val bengkelResponse = userRepository.getBengkelList()
+            val result = bengkelResponse.body()?.bengkelList?.map {
+                val osrmResponse = userRepository.calculateDistance(
                     userLoc.longitude,
                     userLoc.latitude,
                     it.longitude,
                     it.latitude
                 )
-                it.distance = osrmResult.body()?.routes?.get(0)?.distance ?: -1.0
+                it.distance = osrmResponse.body()?.routes?.get(0)?.distance ?: -1.0
                 it
             }
             result?.let {
                 emit(Result.Success(it))
             }
-            if (!bengkelResult.isSuccessful) {
-                val error = bengkelResult.errorBody()?.string()
+            if (!bengkelResponse.isSuccessful) {
+                val error = bengkelResponse.errorBody()?.string()
                 val errorMsg: CommonResponse = GsonBuilder().create()
                     .fromJson(error, CommonResponse::class.java)
                 emit(Result.Error(errorMsg.message))
