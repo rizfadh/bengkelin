@@ -88,14 +88,14 @@ data class DetailResult(
 
 data class ReviewResult(
 
+    @field:SerializedName("id")
+    val id: Int,
+
     @field:SerializedName("namaUser")
     val namaUser: String,
 
-    @field:SerializedName("photoURL")
-    val photoURL: String,
-
     @field:SerializedName("createdAt")
-    val string: String,
+    val createdAt: String,
 
     @field:SerializedName("rating")
     val rating: Double,

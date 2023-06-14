@@ -42,4 +42,7 @@
     <string name="hour">Jam</string>
     <string name="choose_services">Pilih jenis servis</string>
     <string name="choose_vehicle">Pilih jenis kendaraan</string>
+    <string name="add_note">Tambah catatan</string>
+    <string name="review">Review</string>
+    <string name="note">Catatan</string>
 </resources>

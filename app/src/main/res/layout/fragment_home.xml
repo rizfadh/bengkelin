@@ -75,7 +75,7 @@
 
             <include
                 android:id="@+id/progressBar"
-                layout="@layout/layout_shimmer"
+                layout="@layout/layout_bengkel_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_filter"
