@@ -44,14 +44,12 @@
 
         <Button
             android:id="@+id/btn_logout"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Button.Bengkelin.Outlined.Blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Keluar"
-            android:textColor="@color/dark_gray"
-            app:layout_constraintTop_toBottomOf="@id/tv_userEmail"
-            app:strokeColor="@color/dark_gray" />
+            app:layout_constraintTop_toBottomOf="@id/tv_userEmail" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
