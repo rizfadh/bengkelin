@@ -33,6 +33,21 @@
             android:name="bengkelId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_detailFragment_to_confirmationFragment"
+            app:destination="@id/confirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.rizky.bengkelin.ui.confirmation.ConfirmationFragment"
+        android:label="@string/confirmation"
+        tools:layout="@layout/fragment_confirmation" >
+        <argument
+            android:name="serviceOrder"
+            app:argType="com.rizky.bengkelin.model.ServiceOrder" />
+        <action
+            android:id="@+id/action_confirmationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 </navigation>

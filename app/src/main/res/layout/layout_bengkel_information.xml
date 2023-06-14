@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:drawableStartCompat="@drawable/ic_queue_24"
-            app:drawableTint="@color/blue"
+            app:drawableTint="?attr/colorPrimary"
             tools:text="1" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:drawableStartCompat="@drawable/ic_location_24"
-            app:drawableTint="@color/blue"
+            app:drawableTint="?attr/colorPrimary"
             tools:text="500m" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:drawableStartCompat="@drawable/ic_calendar_24"
-            app:drawableTint="@color/blue"
+            app:drawableTint="?attr/colorPrimary"
             tools:text="Senin - Minggu" />
 
         <TextView
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             app:drawableStartCompat="@drawable/ic_time_24"
-            app:drawableTint="@color/blue"
+            app:drawableTint="?attr/colorPrimary"
             tools:text="09:00 - 21:00 WIB" />
 
         <TextView

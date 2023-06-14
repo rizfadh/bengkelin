@@ -30,7 +30,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(preference: UserPreference): UserRepository {
+    fun provideUserRepository(
+        preference: UserPreference
+    ): UserRepository {
         val bengkelinApiService = BengkelinApiConfig.getApiService()
         val predictionApiService = PredictionApiConfig.getApiService()
         val osrmApiService = OsrmApiConfig.getApiService()

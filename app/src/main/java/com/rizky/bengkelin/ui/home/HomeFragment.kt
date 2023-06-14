@@ -47,8 +47,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val bengkelAdapter = BengkelAdapter { bengkelId ->
-            HomeFragmentDirections.actionHomeFragmentToDetailFragment(bengkelId).apply {
-                findNavController().navigate(this)
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(bengkelId).let {
+                findNavController().navigate(it)
             }
         }
 

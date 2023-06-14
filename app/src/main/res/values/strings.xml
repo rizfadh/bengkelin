@@ -6,6 +6,7 @@
     <string name="analysis">Analisis</string>
     <string name="profile">Profil</string>
     <string name="detail">Detail</string>
+    <string name="confirmation">Konfirmasi</string>
     <string name="required">Required</string>
     <string name="error">Error</string>
     <string name="success">Success</string>
@@ -47,4 +48,19 @@
     <string name="note">Catatan</string>
     <string name="location_not_found">Lokasi tidak ditemukan!</string>
     <string name="gps_off_alert">Anda harus mengaktifkan GPS untuk menggunakan aplikasi ini!</string>
+    <string name="service_confirm">Konfirmasi servis</string>
+    <string name="vehicle_empty">Silahkan pilih jenis kendaraan!</string>
+    <string name="services_empty">Silahkan pilih jenis servis!</string>
+    <string name="payment_empty">Silahkan pilih metode pembayaran!</string>
+    <string name="cash">Tunai</string>
+    <string name="transfer">Transfer</string>
+    <string name="total_payment">Total pembayaran</string>
+    <string name="process">Proses</string>
+    <string name="discount">Promo</string>
+    <string name="subtotal_payment">Subtotal biaya</string>
+    <string name="payment_summary">Ringkasan pembayaran</string>
+    <string name="payment_method">Metode pembayaran</string>
+    <string name="service_type">Jenis Servis</string>
+    <string name="vehicle_type">Jenis kendaraan</string>
+    <string name="booking_success">Booking sukses</string>
 </resources>

@@ -1,13 +1,15 @@
 package com.rizky.bengkelin.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class CommonResponse(
 
     @field:SerializedName("message")
     val message: String,
 
-)
+    )
 
 data class LoginResponse(
 
@@ -17,7 +19,7 @@ data class LoginResponse(
     @field:SerializedName("token")
     val token: String,
 
-)
+    )
 
 data class BengkelListResponse(
 
@@ -28,6 +30,7 @@ data class BengkelListResponse(
     val bengkelList: List<BengkelResult>
 )
 
+@Parcelize
 data class BengkelResult(
 
     @field:SerializedName("id")
@@ -64,7 +67,7 @@ data class BengkelResult(
     val jamBuka: String,
 
     var distance: Double
-)
+) : Parcelable
 
 data class DetailResponse(
 
@@ -104,6 +107,7 @@ data class ReviewResult(
     val isiReview: String,
 )
 
+@Parcelize
 data class JasaResult(
 
     @field:SerializedName("id")
@@ -117,4 +121,4 @@ data class JasaResult(
 
     @field:SerializedName("harga")
     val harga: Int,
-)
+) : Parcelable

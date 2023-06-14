@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -15,12 +16,15 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.card.MaterialCardView
 import com.rizky.bengkelin.R
+import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.data.remote.response.DetailResult
 import com.rizky.bengkelin.data.remote.response.JasaResult
 import com.rizky.bengkelin.databinding.FragmentDetailBinding
+import com.rizky.bengkelin.model.ServiceOrder
 import com.rizky.bengkelin.ui.adapter.ReviewAdapter
 import com.rizky.bengkelin.ui.common.Result
 import com.rizky.bengkelin.ui.common.alert
+import com.rizky.bengkelin.utils.formatToCurrency
 import com.rizky.bengkelin.utils.formatToDistance
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,27 +52,28 @@ class DetailFragment : Fragment() {
         LocationServices.getFusedLocationProviderClient(requireActivity()).apply {
             lastLocation.addOnSuccessListener {
                 it?.let { location ->
-                    viewModel.getBengkelDetail(location, bengkelId).observe(viewLifecycleOwner) { result ->
-                        when (result) {
-                            is Result.Loading -> showLoading(true)
-                            is Result.Success -> {
-                                setDetailView(result.data)
-                                showLoading(false)
+                    viewModel.getBengkelDetail(location, bengkelId)
+                        .observe(viewLifecycleOwner) { result ->
+                            when (result) {
+                                is Result.Loading -> showLoading(true)
+                                is Result.Success -> {
+                                    setDetailView(result.data)
+                                    showLoading(false)
+                                }
+                                is Result.Empty -> alert(
+                                    requireActivity(),
+                                    R.drawable.ic_error_24,
+                                    getString(R.string.error),
+                                    getString(R.string.empty)
+                                )
+                                is Result.Error -> alert(
+                                    requireActivity(),
+                                    R.drawable.ic_error_24,
+                                    getString(R.string.error),
+                                    result.error
+                                )
                             }
-                            is Result.Empty -> alert(
-                                requireActivity(),
-                                R.drawable.ic_error_24,
-                                getString(R.string.error),
-                                getString(R.string.empty)
-                            )
-                            is Result.Error -> alert(
-                                requireActivity(),
-                                R.drawable.ic_error_24,
-                                getString(R.string.error),
-                                result.error
-                            )
                         }
-                    }
                 }
             }
         }
@@ -95,7 +100,7 @@ class DetailFragment : Fragment() {
         binding.tvName.text = data.bengkel.nama
         binding.tvAddress.text = data.bengkel.alamat
         binding.layoutInformation.apply {
-            tvQueue.text = "1"
+            tvQueue.text = "0"
             tvDistance.text = data.bengkel.distance.formatToDistance()
             tvSchedule.text = data.bengkel.hariBuka
             tvOpen.text = data.bengkel.jamBuka
@@ -114,7 +119,7 @@ class DetailFragment : Fragment() {
             inflater.apply {
                 findViewById<TextView>(R.id.tv_cbName).text = jasa.nama
                 findViewById<TextView>(R.id.tv_cbDescription).text = jasa.keterangan
-                findViewById<TextView>(R.id.tv_cbPrice).text = jasa.harga.toString()
+                findViewById<TextView>(R.id.tv_cbPrice).text = jasa.harga.formatToCurrency()
                 findViewById<MaterialCardView>(R.id.cv_checkBox).apply {
                     setOnClickListener {
                         isChecked = !isChecked
@@ -132,6 +137,46 @@ class DetailFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireActivity())
                 setHasFixedSize(false)
                 adapter = reviewAdapter
+            }
+        }
+
+        binding.btnConfirm.setOnClickListener { confirmServices(data.bengkel, selectedServices) }
+    }
+
+    private fun confirmServices(
+        bengkel: BengkelResult,
+        selectedServices: Map<Int, JasaResult>
+    ) {
+        when {
+            binding.rgVehicle.checkedRadioButtonId == -1 -> alert(
+                requireActivity(),
+                R.drawable.ic_error_24,
+                getString(R.string.error),
+                getString(R.string.vehicle_empty)
+            )
+            selectedServices.isEmpty() -> alert(
+                requireActivity(),
+                R.drawable.ic_error_24,
+                getString(R.string.error),
+                getString(R.string.services_empty)
+            )
+            else -> {
+                val selectedVehicle = binding.rgVehicle.checkedRadioButtonId.let {
+                    if (binding.rbOne.id == it) binding.rbOne.text
+                    else binding.rbTwo.text
+                }.toString()
+                val selectedServicesList = selectedServices.values.toList()
+                val serviceOrder = ServiceOrder(
+                    bengkel,
+                    selectedVehicle,
+                    selectedServicesList,
+                    binding.edNote.text.toString().trim()
+                )
+                DetailFragmentDirections.actionDetailFragmentToConfirmationFragment(
+                    serviceOrder
+                ).let {
+                    findNavController().navigate(it)
+                }
             }
         }
     }

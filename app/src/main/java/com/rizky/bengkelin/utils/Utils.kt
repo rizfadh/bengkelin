@@ -1,15 +1,13 @@
 package com.rizky.bengkelin.utils
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Environment
-import android.os.Parcelable
 import java.io.File
 import java.io.FileOutputStream
 import java.math.RoundingMode
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,11 +21,6 @@ val timeStamp: String = SimpleDateFormat(
 fun createCustomTempFile(context: Context): File {
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(timeStamp, ".jpg", storageDir)
-}
-
-inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
-    Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
 }
 
 fun File.resizeImageFile(sizeW: Int, sizeH: Int): File {
@@ -47,3 +40,7 @@ fun Double.formatToDistance(): String {
         "${result}km"
     } else "${this}m"
 }
+
+fun Int.formatToCurrency() = NumberFormat.getCurrencyInstance(
+    Locale.getDefault()
+).format(this).toString()
