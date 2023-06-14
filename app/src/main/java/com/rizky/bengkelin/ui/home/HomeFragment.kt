@@ -16,6 +16,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.databinding.FragmentHomeBinding
 import com.rizky.bengkelin.ui.MainViewModel
@@ -52,7 +55,6 @@ class HomeFragment : Fragment() {
         mainViewModel.bengkelList?.let {
             bengkelAdapter.submitList(it)
         } ?: run {
-            showLoading(true)
             getBengkelList(bengkelAdapter)
         }
 
@@ -65,7 +67,6 @@ class HomeFragment : Fragment() {
         binding.swipeRefresh.apply {
             isRefreshing = false
             setOnRefreshListener {
-                showLoading(true)
                 getBengkelList(bengkelAdapter)
             }
         }
@@ -95,16 +96,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun getBengkelList(bengkelAdapter: BengkelAdapter) {
-        val locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(1)
-        ).apply {
-            setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
-            setWaitForAccurateLocation(true)
-        }.build()
 
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest).build()
+        val locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            TimeUnit.SECONDS.toMillis(1)
+        ).apply { setWaitForAccurateLocation(true) }.build()
+
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         LocationServices.getSettingsClient(requireActivity()).apply {
-            checkLocationSettings(builder).addOnSuccessListener {
+            checkLocationSettings(builder.build()).addOnSuccessListener {
                 setBengkelList(bengkelAdapter)
             }.addOnFailureListener {
                 if (it is ResolvableApiException) {
@@ -130,7 +130,13 @@ class HomeFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setBengkelList(bengkelAdapter: BengkelAdapter) {
         LocationServices.getFusedLocationProviderClient(requireActivity()).apply {
-            lastLocation.addOnSuccessListener {
+            getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+                override fun onCanceledRequested(
+                    p0: OnTokenCanceledListener
+                ) = CancellationTokenSource().token
+
+                override fun isCancellationRequested() = false
+            }).addOnSuccessListener {
                 it?.let { location ->
                     viewModel.getBengkelList(location)
                         .observe(viewLifecycleOwner) { result ->
