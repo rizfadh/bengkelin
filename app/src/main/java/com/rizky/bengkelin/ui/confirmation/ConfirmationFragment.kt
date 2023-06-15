@@ -35,29 +35,18 @@ class ConfirmationFragment : Fragment() {
         val (bengkel, vehicle, service, note) = serviceOrder
         val discount = 3000
 
+        val subtotalPayment = service?.sumOf {
+            it.harga
+        } as Int
+        val totalPayment = (subtotalPayment - discount)
+
         binding.apply {
             tvBengkelName.text = bengkel?.nama
             tvBengkelAddress.text = bengkel?.alamat
             tvVehicle.text = vehicle
 
-            service?.forEach {
-                ItemConfirmationServiceBinding.inflate(
-                    LayoutInflater.from(requireActivity())
-                ).apply {
-                    this.tvName.text = it.nama
-                    this.tvDescription.text = it.keterangan
-                    this.tvPrice.text = it.harga.formatToCurrency()
-                    layoutService.addView(this.root)
-                }
-            }
-
             if (note.isNullOrEmpty()) layoutNote.visibility = View.GONE
             else tvNote.text = note
-
-            val subtotalPayment = service?.sumOf {
-                it.harga
-            } as Int
-            val totalPayment = (subtotalPayment - discount)
 
             tvSubtotalPayment.text = subtotalPayment.formatToCurrency()
             tvDiscount.text = discount.formatToCurrency()
@@ -65,6 +54,20 @@ class ConfirmationFragment : Fragment() {
             tvTotalPayment.text = totalPayment.formatToCurrency()
 
             btnProcess.setOnClickListener { processOrder() }
+        }
+
+        service.forEach { jasa ->
+            val tv = ItemConfirmationServiceBinding.inflate(
+                LayoutInflater.from(requireActivity()),
+                binding.layoutService,
+                true
+            )
+
+            tv.apply {
+                tvName.text = jasa.nama
+                tvDescription.text = jasa.keterangan
+                tvPrice.text = jasa.harga.formatToCurrency()
+            }
         }
     }
 

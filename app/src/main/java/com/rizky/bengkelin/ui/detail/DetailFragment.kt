@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,12 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.card.MaterialCardView
 import com.rizky.bengkelin.R
 import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.data.remote.response.DetailResult
 import com.rizky.bengkelin.data.remote.response.JasaResult
 import com.rizky.bengkelin.databinding.FragmentDetailBinding
+import com.rizky.bengkelin.databinding.ItemCheckboxBinding
 import com.rizky.bengkelin.model.ServiceOrder
 import com.rizky.bengkelin.ui.adapter.ReviewAdapter
 import com.rizky.bengkelin.ui.common.Result
@@ -114,18 +113,20 @@ class DetailFragment : Fragment() {
         } else binding.rbTwo.text = vehicle[1]
 
         data.jasas.forEach { jasa ->
-            val inflater = LayoutInflater.from(requireActivity())
-                .inflate(R.layout.item_checkbox, binding.layoutService, true)
-            inflater.apply {
-                findViewById<TextView>(R.id.tv_cbName).text = jasa.nama
-                findViewById<TextView>(R.id.tv_cbDescription).text = jasa.keterangan
-                findViewById<TextView>(R.id.tv_cbPrice).text = jasa.harga.formatToCurrency()
-                findViewById<MaterialCardView>(R.id.cv_checkBox).apply {
-                    setOnClickListener {
-                        isChecked = !isChecked
-                        if (isChecked) selectedServices[jasa.id] = jasa
-                        else selectedServices.remove(jasa.id)
-                    }
+            val cb = ItemCheckboxBinding.inflate(
+                LayoutInflater.from(requireActivity()),
+                binding.layoutService,
+                true
+            )
+
+            cb.apply {
+                tvCbName.text = jasa.nama
+                tvCbDescription.text = jasa.keterangan
+                tvCbPrice.text = jasa.harga.formatToCurrency()
+                root.setOnClickListener {
+                    root.isChecked = !root.isChecked
+                    if (root.isChecked) selectedServices[jasa.id] = jasa
+                    else selectedServices.remove(jasa.id)
                 }
             }
         }
