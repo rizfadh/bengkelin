@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     tools:context=".ui.confirmation.ConfirmationFragment">
 
     <LinearLayout
@@ -86,7 +87,7 @@
                     android:background="@drawable/rounded_corner"
                     android:backgroundTint="@color/gray"
                     android:orientation="vertical"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     tools:text="asjahkashakjshakjshaks asakhgsakhgsakhs khagskagska khagskagsa akgsakhsgah" />
 
             </LinearLayout>
