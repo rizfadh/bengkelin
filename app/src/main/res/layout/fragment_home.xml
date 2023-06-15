@@ -1,86 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefresh"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_collapseMode="pin">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_search"
+                    style="?attr/textInputOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search"
+                    app:startIconContentDescription="Cari"
+                    app:startIconDrawable="@drawable/ic_search_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ed_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/tl_search"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/roundedCornerSmall"
+                    app:srcCompat="@drawable/img_banner" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/TextAppearance.Bengkelin.h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/img"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/home_title" />
+
+                <include
+                    android:id="@+id/layout_filter"
+                    layout="@layout/layout_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_title"
+                    android:layout_marginTop="8dp" />
+
+            </RelativeLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_search"
-                style="?attr/textInputOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search"
-                app:startIconContentDescription="Cari"
-                app:startIconDrawable="@drawable/ic_search_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ed_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/img"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_below="@id/tl_search"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundedCornerSmall"
-                app:srcCompat="@drawable/img_banner" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                style="@style/TextAppearance.Bengkelin.h6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img"
-                android:layout_marginTop="16dp"
-                android:text="@string/home_title" />
-
-            <include
-                android:id="@+id/layout_filter"
-                layout="@layout/layout_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title"
-                android:layout_marginTop="8dp" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bengkel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_filter"
-                android:layout_marginTop="12dp"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
+                android:layout_height="match_parent"
                 tools:listitem="@layout/item_bengkel" />
 
             <include
                 android:id="@+id/progressBar"
                 layout="@layout/layout_bengkel_shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_filter"
-                android:layout_marginTop="12dp"
+                android:layout_height="match_parent"
                 android:visibility="gone" />
+
         </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
