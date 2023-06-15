@@ -25,8 +25,9 @@ class AnalysisViewModel @Inject constructor(
             val response = userRepository.getPrediction(file)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(Result.Success(it))
-                } ?: run { emit(Result.Empty) }
+                    if (it.prediction.isNotEmpty()) emit(Result.Success(it))
+                    else emit(Result.Empty)
+                }
             } else {
                 val result = response.errorBody()?.string()
                 val error: CommonResponse = GsonBuilder().create()

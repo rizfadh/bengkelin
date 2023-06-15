@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rizky.bengkelin.data.remote.response.ReviewResult
 import com.rizky.bengkelin.databinding.ItemReviewBinding
+import com.rizky.bengkelin.utils.formatToDate
 
 class ReviewAdapter : ListAdapter<ReviewResult, ReviewAdapter.ViewHolder>(DIFF_CALLBACK) {
 
@@ -17,7 +18,7 @@ class ReviewAdapter : ListAdapter<ReviewResult, ReviewAdapter.ViewHolder>(DIFF_C
 
         fun bind(review: ReviewResult) {
             binding.tvName.text = review.namaUser
-            binding.tvCreatedAt.text = review.createdAt
+            binding.tvCreatedAt.text = review.createdAt.formatToDate()
             binding.tvRating.text = review.rating.toString()
             binding.tvReview.text = review.isiReview
         }

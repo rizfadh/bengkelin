@@ -152,15 +152,6 @@ class HomeFragment : Fragment() {
                                     showLoading(false)
                                     binding.swipeRefresh.isRefreshing = false
                                 }
-                                is Result.Empty -> {
-                                    alert(
-                                        requireActivity(),
-                                        R.drawable.ic_error_24,
-                                        getString(R.string.error),
-                                        getString(R.string.empty)
-                                    )
-                                    binding.swipeRefresh.isRefreshing = false
-                                }
                                 is Result.Error -> {
                                     alert(
                                         requireActivity(),
@@ -170,6 +161,7 @@ class HomeFragment : Fragment() {
                                     )
                                     binding.swipeRefresh.isRefreshing = false
                                 }
+                                else -> {}
                             }
                         }
                 } ?: run {

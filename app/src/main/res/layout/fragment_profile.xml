@@ -6,21 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/layout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         android:paddingHorizontal="16dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/ic_profile_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/dark_gray" />
 
         <TextView
@@ -29,9 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
-            tools:text="Muhammad Rizky Fadhillah"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:text="Muhammad Rizky Fadhillah" />
 
         <TextView
             android:id="@+id/tv_userEmail"
@@ -39,8 +40,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@id/tv_userName"
             tools:text="kikimuhammad69@gmail.com" />
+
+        <TextView
+            android:id="@+id/tv_userCreatedAt"
+            style="?attr/textAppearanceBody1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="19 agustus 2005" />
 
         <Button
             android:id="@+id/btn_logout"
@@ -48,11 +56,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Keluar"
-            app:layout_constraintTop_toBottomOf="@id/tv_userEmail" />
+            android:text="@string/logout" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/layout_profile_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

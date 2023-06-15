@@ -65,4 +65,6 @@
     <string name="service_type">Jenis Servis</string>
     <string name="vehicle_type">Jenis kendaraan</string>
     <string name="booking_success">Booking sukses</string>
+    <string name="logout">Keluar</string>
+    <string name="created_at">Dibuat pada: %1$s</string>
 </resources>

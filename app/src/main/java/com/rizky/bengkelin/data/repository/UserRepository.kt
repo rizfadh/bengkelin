@@ -38,6 +38,8 @@ class UserRepository(
 
     suspend fun getPrediction(file: MultipartBody.Part) = predictionApiService.getPrediction(file)
 
+    suspend fun getUserProfile(token: String) = bengkelinApiService.getUserProfile(token)
+
     suspend fun calculateDistance(
         userLong: Double,
         userLat: Double,

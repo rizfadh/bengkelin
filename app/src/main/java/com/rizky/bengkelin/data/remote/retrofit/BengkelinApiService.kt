@@ -29,6 +29,11 @@ interface BengkelinApiService {
     suspend fun getBengkelDetail(
         @Path("id") id: Int
     ): Response<DetailResponse>
+
+    @GET("user")
+    suspend fun getUserProfile(
+        @Header("Authorization") token: String
+    ): Response<ProfileResponse>
 }
 
 object BengkelinApiConfig {

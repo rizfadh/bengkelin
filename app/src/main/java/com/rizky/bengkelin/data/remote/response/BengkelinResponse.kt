@@ -122,3 +122,26 @@ data class JasaResult(
     @field:SerializedName("harga")
     val harga: Int,
 ) : Parcelable
+
+data class ProfileResponse(
+
+    @field:SerializedName("message")
+    val message: String,
+
+    @field:SerializedName("data")
+    val data: ProfileResult,
+
+    )
+
+data class ProfileResult(
+
+    @field:SerializedName("username")
+    val username: String,
+
+    @field:SerializedName("email")
+    val email: String,
+
+    @field:SerializedName("createdAt")
+    val createdAt: String,
+
+    )

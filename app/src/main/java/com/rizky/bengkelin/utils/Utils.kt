@@ -7,6 +7,7 @@ import android.os.Environment
 import java.io.File
 import java.io.FileOutputStream
 import java.math.RoundingMode
+import java.text.DateFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +30,12 @@ fun File.resizeImageFile(sizeW: Int, sizeH: Int): File {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(this))
     }
     return this
+}
+
+fun String.formatToDate(): String {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val date = format.parse(this) as Date
+    return DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(date)
 }
 
 fun Double.formatToDistance(): String {
