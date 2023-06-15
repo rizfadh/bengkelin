@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -107,11 +106,6 @@ class AnalysisFragment : Fragment() {
             imageFile = file.resizeImageFile(256, 256).also {
                 val bitmap = BitmapFactory.decodeFile(it.path)
                 binding.ivPreview.setImageBitmap(bitmap)
-                Toast.makeText(
-                    requireActivity(),
-                    "Image resized to ${bitmap.width} x ${bitmap.height}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
@@ -164,8 +158,8 @@ class AnalysisFragment : Fragment() {
         } ?: run {
             alert(
                 requireActivity(),
-                R.drawable.ic_error_24,
-                getString(R.string.error),
+                R.drawable.ic_hold_24,
+                getString(R.string.hold_on),
                 getString(R.string.image_empty)
             )
         }
