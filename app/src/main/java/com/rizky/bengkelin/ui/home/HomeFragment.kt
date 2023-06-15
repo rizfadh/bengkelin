@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
             bengkelAdapter.submitList(it)
         } ?: run {
             getBengkelList(bengkelAdapter)
+            showLoading(true)
         }
 
         binding.rvBengkel.apply {
@@ -68,6 +69,7 @@ class HomeFragment : Fragment() {
             isRefreshing = false
             setOnRefreshListener {
                 getBengkelList(bengkelAdapter)
+                showLoading(true)
             }
         }
     }
@@ -107,12 +109,15 @@ class HomeFragment : Fragment() {
             checkLocationSettings(builder.build()).addOnSuccessListener {
                 setBengkelList(bengkelAdapter)
             }.addOnFailureListener {
+
+                binding.swipeRefresh.isRefreshing = false
+                showLoading(false)
+
                 if (it is ResolvableApiException) {
                     try {
                         resolutionLauncher.launch(
                             IntentSenderRequest.Builder(it.resolution).build()
                         )
-                        binding.swipeRefresh.isRefreshing = false
                     } catch (e: IntentSender.SendIntentException) {
                         alert(
                             requireActivity(),
@@ -120,7 +125,6 @@ class HomeFragment : Fragment() {
                             getString(R.string.error),
                             e.message
                         )
-                        binding.swipeRefresh.isRefreshing = false
                     }
                 }
             }

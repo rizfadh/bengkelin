@@ -72,8 +72,8 @@ class ConfirmationFragment : Fragment() {
         when {
             binding.rgPayment.checkedRadioButtonId == -1 -> alert(
                 requireActivity(),
-                R.drawable.ic_error_24,
-                getString(R.string.error),
+                R.drawable.ic_hold_24,
+                getString(R.string.hold_on),
                 getString(R.string.payment_empty)
             )
             else -> {

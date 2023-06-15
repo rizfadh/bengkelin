@@ -9,6 +9,7 @@ import com.rizky.bengkelin.data.remote.response.BengkelResult
 import com.rizky.bengkelin.data.remote.response.CommonResponse
 import com.rizky.bengkelin.data.repository.UserRepository
 import com.rizky.bengkelin.ui.common.Result
+import com.rizky.bengkelin.utils.isLatLongValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,16 +24,18 @@ class HomeViewModel @Inject constructor(
         emit(Result.Loading)
         try {
             val bengkelResponse = userRepository.getBengkelList()
-            val result = bengkelResponse.body()?.bengkelList?.map {
-                val osrmResponse = userRepository.calculateDistance(
-                    userLoc.longitude,
-                    userLoc.latitude,
-                    it.longitude,
-                    it.latitude
-                )
-                it.distance = osrmResponse.body()?.routes?.get(0)?.distance ?: -1.0
-                it
-            }
+            val result = bengkelResponse.body()?.bengkelList?.map { bengkel ->
+                if (isLatLongValid(bengkel.latitude, bengkel.longitude)) {
+                    val osrmResponse = userRepository.calculateDistance(
+                        userLoc.longitude,
+                        userLoc.latitude,
+                        bengkel.longitude,
+                        bengkel.latitude
+                    )
+                    bengkel.distance = osrmResponse.body()?.routes?.get(0)?.distance
+                }
+                bengkel
+            }?.sortedWith(compareBy(nullsLast()) { it.distance })
             result?.let {
                 emit(Result.Success(it))
             }

@@ -40,8 +40,8 @@
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="8dp"
                 android:layout_below="@id/tl_search"
+                android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/roundedCornerSmall"
                 app:srcCompat="@drawable/img_banner" />
@@ -51,8 +51,8 @@
                 style="@style/TextAppearance.Bengkelin.h6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_below="@id/img"
+                android:layout_marginTop="16dp"
                 android:text="@string/home_title" />
 
             <include
@@ -67,8 +67,8 @@
                 android:id="@+id/rv_bengkel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_below="@id/layout_filter"
+                android:layout_marginTop="12dp"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_bengkel" />
@@ -79,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_filter"
+                android:layout_marginTop="12dp"
                 android:visibility="gone" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/gray"
-    android:padding="8dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -15,6 +16,34 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/layout2"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_rating"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:drawableStartCompat="@drawable/ic_star_24"
+            app:drawableTint="?attr/colorPrimary"
+            tools:text="4.5" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/layout3"
+        app:layout_constraintStart_toEndOf="@+id/layout1"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -36,13 +65,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout2"
+        android:id="@+id/layout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/layout3"
-        app:layout_constraintStart_toEndOf="@+id/layout1"
+        app:layout_constraintEnd_toStartOf="@+id/layout4"
+        app:layout_constraintStart_toEndOf="@+id/layout2"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -60,34 +89,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/distance"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/layout4"
-        app:layout_constraintStart_toEndOf="@+id/layout2"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_schedule"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:drawableStartCompat="@drawable/ic_calendar_24"
-            app:drawableTint="?attr/colorPrimary"
-            tools:text="Senin - Minggu" />
-
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/schedule"
             android:textStyle="bold" />
     </LinearLayout>
 

@@ -44,3 +44,7 @@ fun Double.formatToDistance(): String {
 fun Int.formatToCurrency() = NumberFormat.getCurrencyInstance(
     Locale.getDefault()
 ).format(this).toString()
+
+fun isLatLongValid(
+    lat: Double, long: Double
+) = lat >= -90 && lat <= 90 && long >= -180 && long <= 180

@@ -101,8 +101,8 @@ class DetailFragment : Fragment() {
         binding.tvAddress.text = data.bengkel.alamat
         binding.layoutInformation.apply {
             tvQueue.text = "0"
-            tvDistance.text = data.bengkel.distance.formatToDistance()
-            tvSchedule.text = data.bengkel.hariBuka
+            tvDistance.text = data.bengkel.distance?.formatToDistance()
+            tvRating.text = data.bengkel.totalNilaiJumlahReview.toString()
             tvOpen.text = data.bengkel.jamBuka
         }
 
@@ -150,14 +150,14 @@ class DetailFragment : Fragment() {
         when {
             binding.rgVehicle.checkedRadioButtonId == -1 -> alert(
                 requireActivity(),
-                R.drawable.ic_error_24,
-                getString(R.string.error),
+                R.drawable.ic_hold_24,
+                getString(R.string.hold_on),
                 getString(R.string.vehicle_empty)
             )
             selectedServices.isEmpty() -> alert(
                 requireActivity(),
-                R.drawable.ic_error_24,
-                getString(R.string.error),
+                R.drawable.ic_hold_24,
+                getString(R.string.hold_on),
                 getString(R.string.services_empty)
             )
             else -> {

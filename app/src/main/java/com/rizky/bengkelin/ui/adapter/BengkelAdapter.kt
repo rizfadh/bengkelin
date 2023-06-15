@@ -35,7 +35,7 @@ class BengkelAdapter(
                     if (it.size == 2) tvTypeTwo.text = it[1] else tvTypeTwo.visibility = View.GONE
                 }
                 tvAddress.text = bengkelResult.alamat
-                tvDistance.text = bengkelResult.distance.formatToDistance()
+                tvDistance.text = bengkelResult.distance?.formatToDistance()
                 tvQueue.text = itemView.context.getString(R.string.number_of_queue, bengkelResult.antrian)
             }
         }

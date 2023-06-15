@@ -66,7 +66,7 @@ data class BengkelResult(
     @field:SerializedName("jamBuka")
     val jamBuka: String,
 
-    var distance: Double
+    var distance: Double? = null
 ) : Parcelable
 
 data class DetailResponse(
